@@ -63,9 +63,9 @@
 ```yaml
 ---
 name: user-profile
-description: |
-  用户个人档案，包含身份信息、偏好设置、常用项目。
-  每次新会话开始时自动激活。
+description: 用户个人档案，包含身份信息、偏好设置、常用项目，每次新会话开始时自动激活。
+allowed-tools: [Read]
+user-invocable: false
 ---
 
 # 用户档案
@@ -167,9 +167,8 @@ description: |
 ```yaml
 ---
 name: firebase-mobile-login-fix
-description: |
-  Firebase Google 登录在移动端失败的解决方案。
-  当遇到移动端登录问题时激活。
+description: Firebase Google 登录在移动端失败的解决方案，当遇到移动端登录问题时激活。
+allowed-tools: [Read, Bash]
 ---
 
 # Firebase 移动端登录问题
@@ -430,8 +429,12 @@ Firebase项目ID：my-project-123
 ---
 name: xiaomi-shellclash-update
 description: 更新小米路由器节点配置
-requires_config: true
+allowed-tools: [Bash, SSH]
 ---
+
+<!-- metadata
+requires_config: true
+-->
 
 ## 环境要求
 本技能需要以下配置（从 ~/.gemini/secrets.env 读取）：
@@ -443,10 +446,11 @@ requires_config: true
 ...
 ```
 
-**3. AI 加载时自动理解**:
-- 读取 `~/.gemini/secrets.env`
-- 从自然语言中提取所需信息
-- 敏感值不会被写入技能文件本身
+**3. AI 执行时动态读取 (依赖 GEMINI.md 规则)**:
+- 这不是 Agent Skills 引擎的原生功能
+- 需要在 `GEMINI.md` 中配置 System Prompt 规则：
+  > "当遇到 `${描述}` 格式时，请读取 `~/.gemini/secrets.env`，并利用你的理解能力从自然语言文本中提取对应的信息进行替换（而非机械的键值对匹配）。"
+- 敏感值在使用时动态替换，**不会**被写入技能文件本身
 
 **4. 好处**:
 - 用户无需学习特定格式
@@ -533,14 +537,22 @@ requires_config: true
 **补充措施**：
 
 1. **置信度标记**：在技能文件中标注来源
-```yaml
+
+```markdown
 ---
 name: firebase-login-fix
-description: ...
-source: 实际调试验证    # 或 "文档推断"、"网络搜索"
-confidence: high        # high / medium / low
-last_verified: 2026-01-16
+description: Firebase Google 登录在移动端失败的解决方案。
+allowed-tools: [Read]
 ---
+
+<!-- Custom Metadata used by Deposit Agent
+source: 实际调试验证
+confidence: high
+last_verified: 2026-01-16
+-->
+
+# Firebase 登录修复
+...
 ```
 
 2. **定期审计提醒**：每使用 N 次后提醒用户复核
