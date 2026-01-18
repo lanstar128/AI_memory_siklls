@@ -3,9 +3,10 @@ name: memory-sync
 description: |
   记忆同步技能。将本地技能、对话记录和配置同步到远程 Git 仓库。
   触发条件：用户说"同步记忆"/"备份技能"/"push 记忆"/"拉取记忆"/"恢复技能"。
-source: 用户需求设计
-confidence: high
-last_verified: 2026-01-18
+compatibility: Claude Code, Gemini CLI, OpenAI Codex, iFlow CLI
+metadata:
+  author: lanstar128
+  version: "1.0"
 ---
 
 # 记忆同步技能

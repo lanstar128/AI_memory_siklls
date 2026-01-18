@@ -4,9 +4,10 @@ description: |
   对话归档技能。在用户完成工作或明确要求保存时，引导用户导出对话并归档。
   触发条件：用户说"保存对话"/"归档"/"记录一下"，或检测到离开意图（"今天就到这"/"提交代码吧"）。
   用于指导 AI 如何正确地归档对话记录，包括时间戳提取和索引管理。
-source: 用户需求设计
-confidence: high
-last_verified: 2026-01-18
+compatibility: Claude Code, Gemini CLI, OpenAI Codex, iFlow CLI
+metadata:
+  author: lanstar128
+  version: "1.0"
 ---
 
 # 对话归档技能

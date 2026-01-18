@@ -4,6 +4,10 @@ description: |
   经验沉淀技能。在任务成功完成后，评估是否需要将解决方案保存为可复用的技能。
   触发条件：任务结束时、用户说"记住这个"/"保存这个"、解决问题过程有试错。
   用于指导 AI 如何正确地将知识沉淀为技能文件。
+compatibility: Claude Code, Gemini CLI, OpenAI Codex, iFlow CLI
+metadata:
+  author: lanstar128
+  version: "1.0"
 ---
 
 # 经验沉淀技能

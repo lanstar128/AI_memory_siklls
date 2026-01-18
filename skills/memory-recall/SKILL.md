@@ -4,9 +4,10 @@ description: |
   记忆检索技能。统一检索历史对话和经验沉淀，支持语义搜索。
   触发条件：用户说"我们之前讨论过"/"上次怎么解决的"/"这个项目做过什么"。
   使用本地 embedding 模型进行语义匹配，结果展示原文。
-source: 用户需求设计
-confidence: high
-last_verified: 2026-01-18
+compatibility: Claude Code, Gemini CLI, OpenAI Codex, iFlow CLI
+metadata:
+  author: lanstar128
+  version: "1.0"
 ---
 
 # 记忆检索技能
