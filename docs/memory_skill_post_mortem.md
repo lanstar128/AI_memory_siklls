@@ -51,20 +51,43 @@
   - **可靠性**：依赖模型严格遵循 "本能反应" 指令，表现不稳定。
   - **保真度**：仍然依赖模型 "输出" 用户提示词的文本，技术上讲这仍然是一次重新生成，而非真正的复制。
 
-### 尝试 5：手动导出摄入 (折衷方案)
-- **概念**：用户手动使用 IDE 的 "Export" 按钮；AI 只读取生成的文件。
-- **机制**：被动 "只读 (Read-Only)" 模式。
-- **结果**：**放弃**。用户正确地指出，这违背了 "自动化助手" 的初衷，操作摩擦太大。
+### 尝试 5：手动导出摄入 (折衷方案) ✅ 已实现
+- **概念**：用户手动使用 IDE 的 "Export" 按钮导出对话；AI 检测、处理并归档。
+- **机制**：被动触发 + 脚本处理 + SQLite 索引。
+- **结果**：**成功实现** (2026-01-18)
+
+#### 实现细节
+1. **触发方式**：用户说"保存对话"或检测到离开意图
+2. **时间戳来源**：从 `ADDITIONAL_METADATA.current local time` 提取
+3. **存储位置**：
+   - 文件：`<项目>/.agent/memory/conversations/YYYY-MM/`
+   - 索引：`~/.gemini/memory/conversations.db` (SQLite)
+4. **检索功能**：`memory-recall` 技能，支持关键词/语义搜索
+
+#### 已创建的技能
+| 技能 | 位置 | 功能 |
+|------|------|------|
+| `conversation-archive` | `~/.gemini/antigravity/skills/` | 归档对话 |
+| `memory-recall` | `~/.gemini/antigravity/skills/` | 检索历史 |
 
 ## 4. 关键结论与未来方向 (Key Learnings & Future Direction)
 
-**核心阻碍 (Core Blocker)**：
-Agent **无法访问 IDE 真正的 "原始输入流 (Raw Input Stream)"**。它只能接收 *当前* 的上下文窗口。Agent 试图 "保存" 聊天的任何尝试，本质上都涉及 Agent *重新生成* 文本，这在本质上就是慢的（生成速度受限）且容易被篡改（模型对齐影响）。
+**已解决的问题**：
+通过"手动导出 + AI 处理"的折衷方案，实现了：
+- ✅ 原始对话记录保存（导出文件保真）
+- ✅ 时间戳注入（从内存上下文提取）
+- ✅ 全局索引检索（SQLite + 关键词搜索）
+- ✅ 原文展示（脚本直接输出，不经 AI 处理）
 
-**未来解决方案要求**：
-要彻底解决这个问题，能力必须来自 **IDE 系统层**，而不是 **Agent 技能层**。
-1.  **系统钩子 (System Hook)**：IDE 本身 (Antigravity) 需要暴露一个 "Chat Logger" API 或设置，自动将聊天保存到 `.agent/logs/`。
-2.  **无生成 (No-Gen)**：保存必须是文件系统的复制操作，而不是 LLM 的生成任务。
+**仍存在的限制**：
+- 需要用户手动点击 Export 按钮（IDE 未提供自动导出 API）
+- 语义搜索需要额外安装依赖 (`sentence-transformers`)
+
+**未来优化方向**：
+1. 等待 IDE 提供原生的 Chat Logger API
+2. 完善语义搜索的 embedding 存储
 
 ---
 *Created by Antigravity Agent, 2026-01-17*
+*Updated: 2026-01-18 - 记录折衷方案成功实现*
+
