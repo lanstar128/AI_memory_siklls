@@ -62,7 +62,7 @@
 
 | 作用域 | 路径 |
 |-------|------|
-| 全局 | `~/.gemini/antigravity/skills/` |
+| 全局 | `~/.gemini/skills/` |
 | 项目级 | `<workspace>/.agent/skills/` |
 
 特点：

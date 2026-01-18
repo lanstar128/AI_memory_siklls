@@ -67,8 +67,8 @@
 #### 已创建的技能
 | 技能 | 位置 | 功能 |
 |------|------|------|
-| `conversation-archive` | `~/.gemini/antigravity/skills/` | 归档对话 |
-| `memory-recall` | `~/.gemini/antigravity/skills/` | 检索历史 |
+| `conversation-archive` | `~/.gemini/skills/` | 归档对话 |
+| `memory-recall` | `~/.gemini/skills/` | 检索历史 |
 
 ## 4. 关键结论与未来方向 (Key Learnings & Future Direction)
 

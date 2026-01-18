@@ -83,12 +83,19 @@ alwaysApply: true
 - **触发**：仅在用户输入 "commit", "save", "push" 时
 - **动作**：`git add . && git commit -m "update" && git push`（盲推，不检查状态）
 
+EXCEPTION: 如果用户说的是以下关键词，则**不执行**上述 Git 操作，而是查找并执行 `memory-sync` 技能：
+- "同步记忆" / "备份技能" / "push 记忆"
+- "拉取记忆" / "恢复技能" / "pull 记忆"
+- "初始化同步" / "记忆同步"
+
+这些操作针对的是 `~/.gemini/` 目录，不是当前项目。
+
 ---
 
 ## 🧩 Skills 技能库
 
 ### 技能库位置
-- **全局技能**：`~/.gemini/antigravity/skills/`
+- **全局技能**：`~/.gemini/skills/`
 - **项目技能**：`<workspace>/.agent/skills/`
 
 ---

@@ -58,7 +58,7 @@ description: |
 
 ### 3.1 检索步骤
 
-1. 列出目录 `~/.gemini/antigravity/skills/`
+1. 列出目录 `~/.gemini/skills/`
 2. 读取每个子目录中的 `SKILL.md` 文件的 YAML 头部（只需 `description` 字段）
 3. 对比新知识的描述与现有技能的 `description`
 
@@ -80,7 +80,7 @@ description: |
 建议将这次解决 [问题描述] 的方案保存为技能。
 
 技能名称: [建议的名称]
-保存位置: ~/.gemini/antigravity/skills/[技能名称]/
+保存位置: ~/.gemini/skills/[技能名称]/
 
 摘要:
 - 问题: [简述]
@@ -105,7 +105,7 @@ description: |
 ### 5.2 文件结构
 
 ```
-~/.gemini/antigravity/skills/[技能名称]/
+~/.gemini/skills/[技能名称]/
 └── SKILL.md
 ```
 
@@ -152,7 +152,7 @@ last_verified: [当前日期 YYYY-MM-DD]
 ```
 ✅ 技能已保存
 
-位置: ~/.gemini/antigravity/skills/[技能名称]/SKILL.md
+位置: ~/.gemini/skills/[技能名称]/SKILL.md
 下次遇到类似问题时会自动激活此技能。
 ```
 

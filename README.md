@@ -13,17 +13,18 @@
 
 ## 全局技能位置
 
-技能安装到 `~/.gemini/antigravity/skills/`：
+技能安装到 `~/.gemini/skills/`：
 
 ```
 ~/.gemini/
 ├── .git/                       # Git 仓库（同步用）
 ├── GEMINI.md                   # 全局规则
 ├── secrets.env                 # 敏感配置
-├── antigravity/skills/
+├── skills/                     # 全局技能库 (安装位置)
 │   ├── conversation-archive/   # 对话归档
 │   ├── memory-recall/          # 记忆检索
-│   └── memory-sync/            # 记忆同步
+│   ├── memory-sync/            # 记忆同步
+│   └── knowledge-deposit/      # 经验沉淀
 └── memory/
     ├── conversations/          # 对话原文
     ├── conversations.db        # SQLite 索引
@@ -53,13 +54,13 @@
 | 组件 | 技术 |
 |------|------|
 | 时间戳来源 | `ADDITIONAL_METADATA.current local time` |
-| 对话存储 | `<项目>/.agent/memory/conversations/` |
+| 对话存储 | 全局存储 (`~/.gemini/memory/conversations/`) |
 | 全局索引 | SQLite (`~/.gemini/memory/conversations.db`) |
 | 语义搜索 | `sentence-transformers` (可选) |
 
 ## 安装
 
-1. 将全局技能复制到 `~/.gemini/antigravity/skills/`
+1. 将全局技能复制到 `~/.gemini/skills/`
 2. 将 `GEMINI.md` 合并到 `~/.gemini/GEMINI.md`
 3. 可选：安装语义搜索依赖 `pip install sentence-transformers`
 

@@ -11,7 +11,7 @@
 
 | 作用域 | 路径 | 说明 |
 |-------|------|------|
-| **全局** | `~/.gemini/antigravity/skills/` | 所有项目共享 |
+| **全局** | `~/.gemini/skills/` | 所有项目共享 |
 | **项目级** | `<workspace>/.agent/skills/` | 仅当前项目 |
 
 ---
@@ -22,8 +22,8 @@
 
 #### 步骤 1：创建全局技能目录
 ```bash
-mkdir -p ~/.gemini/antigravity/skills/user-profile
-mkdir -p ~/.gemini/antigravity/skills/problem-solutions
+mkdir -p ~/.gemini/skills/user-profile
+mkdir -p ~/.gemini/skills/problem-solutions
 ```
 
 #### 步骤 2：创建敏感信息文件
@@ -42,7 +42,7 @@ echo '{"threshold": 0.3, "skill_count": 0, "confirmation_rate": 0}' > ~/.gemini/
 
 #### 步骤 4：创建用户档案技能
 
-创建文件 `~/.gemini/antigravity/skills/user-profile/SKILL.md`：
+创建文件 `~/.gemini/skills/user-profile/SKILL.md`：
 
 ```yaml
 ---
@@ -96,7 +96,7 @@ description: |
 ### 沉淀流程
 1. 任务结束后自动评估是否满足沉淀条件
 2. 如满足条件，向用户提议沉淀
-3. 用户确认后，创建/更新技能文件到 ~/.gemini/antigravity/skills/
+3. 用户确认后，创建/更新技能文件到 ~/.gemini/skills/
 
 ### 敏感信息规则
 - 禁止将 secrets.env 中的实际值写入任何技能文件
@@ -119,7 +119,7 @@ description: |
 
 1. 执行一个需要调试的任务（例如故意制造一个 Bug 然后解决）
 2. 任务完成后观察 AI 是否提议沉淀
-3. 确认沉淀后检查 `~/.gemini/antigravity/skills/` 是否有新文件
+3. 确认沉淀后检查 `~/.gemini/skills/` 是否有新文件
 
 ---
 
@@ -127,7 +127,7 @@ description: |
 
 | 文件 | 用途 | 需创建 |
 |-----|------|--------|
-| `~/.gemini/antigravity/skills/user-profile/SKILL.md` | 用户档案 | ✅ |
+| `~/.gemini/skills/user-profile/SKILL.md` | 用户档案 | ✅ |
 | `~/.gemini/secrets.env` | 敏感信息存储 | ✅ |
 | `~/.gemini/meta.json` | 阈值和统计元数据 | ✅ |
 | `~/.gemini/GEMINI.md` | 用户规则（更新） | 修改 |
@@ -136,7 +136,7 @@ description: |
 
 ## 四、注意事项
 
-1. **路径差异**: Antigravity 使用 `~/.gemini/antigravity/skills/` 而非方案文档中的 `~/.gemini/skills/`
+1. **路径差异**: Antigravity 使用 `~/.gemini/skills/` 而非方案文档中的 `~/.gemini/skills/`
 2. **项目级技能**: 如果某些技能只属于特定项目，应放在 `<project>/.agent/skills/`
 3. **Git 同步**: 全局技能目录可以用 Git 管理，方便备份和跨设备同步
 

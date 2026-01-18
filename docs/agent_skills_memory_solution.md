@@ -34,7 +34,7 @@
 ┌─────────────────────────────────────────────────────────┐
 │                     技能存储层                           │
 │                                                         │
-│  全局技能 (~/.gemini/antigravity/skills/)    项目技能 (.agent/skills/) │
+│  全局技能 (~/.gemini/skills/)    项目技能 (.agent/skills/) │
 │  ├── user-profile/              ├── project-context/    │
 │  ├── coding-patterns/           ├── business-rules/     │
 │  └── problem-solutions/         └── local-workflows/    │
@@ -58,7 +58,7 @@
 
 ### 解决方案：用户档案技能
 
-在 `~/.gemini/antigravity/skills/user-profile/SKILL.md` 存储：
+在 `~/.gemini/skills/user-profile/SKILL.md` 存储：
 
 ```yaml
 ---
@@ -103,7 +103,7 @@ user-invocable: false
 ### 解决方案：分层技能库
 
 ```
-~/.gemini/antigravity/skills/
+~/.gemini/skills/
 ├── user-profile/          # Level 1: 每次都加载
 │   └── SKILL.md
 ├── coding-patterns/       # Level 2: 写代码时加载
@@ -196,8 +196,8 @@ allowed-tools: [Read, Bash]
 
 ### 第一步：建立基础结构
 ```bash
-mkdir -p ~/.gemini/antigravity/skills/user-profile
-mkdir -p ~/.gemini/antigravity/skills/problem-solutions
+mkdir -p ~/.gemini/skills/user-profile
+mkdir -p ~/.gemini/skills/problem-solutions
 ```
 
 ### 第二步：创建用户档案技能
@@ -509,7 +509,7 @@ requires_config: true
 技能可以按文件夹分类组织，但**分类不限制 AI 搜索范围**：
 
 ```
-~/.gemini/antigravity/skills/
+~/.gemini/skills/
 ├── android/                    # 分类只是文件夹组织
 │   └── firebase-login-fix/
 │       └── SKILL.md

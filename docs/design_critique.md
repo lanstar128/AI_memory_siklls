@@ -3,7 +3,7 @@
 ## 1. 核心兼容性分析
 
 ### 1.1 路径与结构
-- **现状**: 使用 `~/.gemini/antigravity/skills`。
+- **现状**: 使用 `~/.gemini/skills`。
 - **官方**: Claude 使用 `~/.claude/skills`，Antigravity 使用项目内或特定配置目录。
 - **结论**: ✅ **兼容**。只要 Agent 能够被配置去扫描该目录，路径本身不是硬性限制。为了与 Antigravity 原生体验更一致，建议后续支持项目级 `.agent/skills` 目录。
 

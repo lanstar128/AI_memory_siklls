@@ -9,7 +9,7 @@
 | 属性 | 值 |
 |-----|---|
 | 技能名称 | `knowledge-deposit` |
-| 存放位置 | `~/.gemini/antigravity/skills/knowledge-deposit/` |
+| 存放位置 | `~/.gemini/skills/knowledge-deposit/` |
 | 触发时机 | 任务结束时由 AI 自动评估 |
 | 核心功能 | 判断、提取、检索、创建/更新技能文件 |
 
@@ -42,7 +42,7 @@
 ### 2.3 检索对比能力
 沉淀前检索现有技能：
 
-1. 扫描 `~/.gemini/antigravity/skills/` 下所有技能
+1. 扫描 `~/.gemini/skills/` 下所有技能
 2. 读取每个技能的 `SKILL.md` 中的 `description`
 3. 对比新知识与现有技能的相似度
 4. 决定：创建新技能 / 更新已有技能 / 跳过
@@ -96,7 +96,7 @@ last_verified: 2026-01-16
 ## 四、SKILL.md 结构设计
 
 ```
-~/.gemini/antigravity/skills/knowledge-deposit/
+~/.gemini/skills/knowledge-deposit/
 └── SKILL.md
 ```
 
@@ -135,7 +135,7 @@ description: |
 └── 生成技能 description
     ↓
 [检索阶段]
-├── 列出 ~/.gemini/antigravity/skills/ 目录
+├── 列出 ~/.gemini/skills/ 目录
 ├── 读取每个技能的 SKILL.md 的 YAML 头部
 ├── 对比 description 相似度
 └── 判断：新建 / 更新 / 跳过
