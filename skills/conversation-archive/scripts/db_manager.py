@@ -24,8 +24,21 @@ import sqlite3
 from datetime import datetime
 from pathlib import Path
 
+
+def get_memory_root() -> Path:
+    """Detect memory root based on installed platform directories."""
+    home = Path.home()
+    codex_root = home / '.codex'
+    if codex_root.exists():
+        return codex_root / 'memory'
+    gemini_root = home / '.gemini'
+    if gemini_root.exists():
+        return gemini_root / 'memory'
+    return codex_root / 'memory'
+
+
 # 数据库路径
-DB_PATH = Path.home() / '.gemini' / 'memory' / 'conversations.db'
+DB_PATH = get_memory_root() / 'conversations.db'
 
 
 def init_db():
