@@ -240,10 +240,30 @@ setup_git_auth() {
         install_gh_cli || return
     fi
     
-    # 进行 GitHub 登录
+    # 进行 GitHub 登录（使用设备码模式）
     echo ""
-    echo "  正在打开浏览器进行 GitHub 授权..."
-    if gh auth login --web --git-protocol https; then
+    echo "  即将进行 GitHub 授权..."
+    echo "  请在浏览器中完成授权后返回终端"
+    echo ""
+    
+    # 根据系统打开浏览器
+    case "$OS_TYPE" in
+        macos)
+            open "https://github.com/login/device" 2>/dev/null &
+            ;;
+        linux)
+            xdg-open "https://github.com/login/device" 2>/dev/null &
+            ;;
+        windows)
+            start "https://github.com/login/device" 2>/dev/null &
+            ;;
+        termux)
+            termux-open-url "https://github.com/login/device" 2>/dev/null &
+            ;;
+    esac
+    
+    # 使用交互式登录
+    if gh auth login --hostname github.com --git-protocol https <&3; then
         HAS_GH_AUTH=true
         echo -e "  ${GREEN}✓${NC} GitHub 授权成功"
     else
