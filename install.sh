@@ -54,10 +54,74 @@ echo -e "${YELLOW}[2/4] 配置私人数据仓库...${NC}"
 if [ -d "$MEMORY_ROOT/data/.git" ]; then
     echo -e "  ${GREEN}✓${NC} 私人数据仓库已存在"
 else
+    # ========== 检查 Git 授权状态 ==========
+    HAS_SSH_KEY=false
+    HAS_GH_AUTH=false
+    
+    # 检查 SSH 密钥
+    if ls ~/.ssh/id_* &>/dev/null; then
+        HAS_SSH_KEY=true
+        echo -e "  ${GREEN}✓${NC} 检测到 SSH 密钥"
+    fi
+    
+    # 检查 GitHub CLI 授权
+    if command -v gh &>/dev/null && gh auth status &>/dev/null; then
+        HAS_GH_AUTH=true
+        echo -e "  ${GREEN}✓${NC} 检测到 GitHub CLI 已授权"
+    fi
+    
+    # 如果两者都没有，需要配置授权
+    if [ "$HAS_SSH_KEY" = false ] && [ "$HAS_GH_AUTH" = false ]; then
+        echo -e "  ${YELLOW}⚠️${NC} 未检测到 Git 授权配置"
+        echo ""
+        echo "  访问私有仓库需要授权，请选择授权方式："
+        echo "    1) 使用 GitHub CLI 登录（推荐，自动打开浏览器）"
+        echo "    2) 跳过（稍后手动配置 SSH 密钥）"
+        echo ""
+        printf "  请选择 [1/2]: "
+        read auth_choice <&3
+        
+        if [[ "$auth_choice" == "1" ]]; then
+            # 检查并安装 GitHub CLI
+            if ! command -v gh &>/dev/null; then
+                echo ""
+                echo "  需要安装 GitHub CLI..."
+                
+                # 检查是否有 Homebrew
+                if command -v brew &>/dev/null; then
+                    echo "  正在使用 Homebrew 安装 gh..."
+                    brew install gh
+                else
+                    echo -e "  ${RED}❌ 未检测到 Homebrew${NC}"
+                    echo "  请先安装 Homebrew: https://brew.sh"
+                    echo "  或手动安装 GitHub CLI: https://cli.github.com"
+                    echo ""
+                    echo "  跳过授权配置..."
+                fi
+            fi
+            
+            # 进行 GitHub 登录
+            if command -v gh &>/dev/null; then
+                echo ""
+                echo "  正在打开浏览器进行 GitHub 授权..."
+                if gh auth login --web --git-protocol https; then
+                    HAS_GH_AUTH=true
+                    echo -e "  ${GREEN}✓${NC} GitHub 授权成功"
+                else
+                    echo -e "  ${YELLOW}⚠️${NC} 授权取消或失败"
+                fi
+            fi
+        fi
+    fi
+    
     echo ""
     echo "  请输入你的私人记忆仓库地址"
-    echo "  （如果没有，请先在 GitHub/Gitee 创建一个空的私有仓库）"
-    echo "  （确保已配置好 SSH 密钥或 HTTPS 凭据）"
+    echo "  （如果没有，请先在 GitHub 创建一个空的私有仓库）"
+    if [ "$HAS_SSH_KEY" = true ]; then
+        echo "  推荐使用 SSH 格式: git@github.com:用户名/仓库名.git"
+    else
+        echo "  推荐使用 HTTPS 格式: https://github.com/用户名/仓库名.git"
+    fi
     echo ""
     
     data_repo=""
@@ -117,7 +181,7 @@ EOF
             echo "  可能原因："
             echo "    1. 仓库地址错误"
             echo "    2. 仓库不存在"
-            echo "    3. 没有访问权限（SSH 密钥未配置）"
+            echo "    3. 没有访问权限"
             echo ""
             printf "  是否重试？[y/n]: "
             read retry <&3
