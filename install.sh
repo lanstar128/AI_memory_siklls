@@ -269,9 +269,29 @@ create_link() {
             mv "$target" "${target}.bak.$(date +%s)"
         fi
         
-        # 创建符号链接
-        ln -s "$MEMORY_ROOT/skills/skills" "$target"
-        echo -e "  ${GREEN}✓${NC} $name"
+        # 根据操作系统创建链接
+        if [[ "$OSTYPE" == "msys"* ]] || [[ "$OSTYPE" == "cygwin"* ]]; then
+            # Windows: 使用 mklink /D 或 junction
+            # 转换路径格式
+            local win_source=$(cygpath -w "$MEMORY_ROOT/skills/skills" 2>/dev/null || echo "$MEMORY_ROOT/skills/skills")
+            local win_target=$(cygpath -w "$target" 2>/dev/null || echo "$target")
+            
+            # 尝试使用 mklink（需要管理员权限）或 junction
+            if cmd //c "mklink /D \"$win_target\" \"$win_source\"" &>/dev/null; then
+                echo -e "  ${GREEN}✓${NC} $name"
+            elif command -v junction &>/dev/null; then
+                junction "$target" "$MEMORY_ROOT/skills/skills"
+                echo -e "  ${GREEN}✓${NC} $name"
+            else
+                # 回退方案：复制目录
+                cp -r "$MEMORY_ROOT/skills/skills" "$target"
+                echo -e "  ${YELLOW}✓${NC} $name (复制模式，需手动同步)"
+            fi
+        else
+            # Unix/Linux/macOS: 使用符号链接
+            ln -s "$MEMORY_ROOT/skills/skills" "$target"
+            echo -e "  ${GREEN}✓${NC} $name"
+        fi
     fi
 }
 
