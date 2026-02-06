@@ -54,7 +54,8 @@ else
     echo "  请输入你的私人记忆仓库地址"
     echo "  （如果没有，请先在 GitHub/Gitee 创建一个空的私有仓库）"
     echo ""
-    read -p "  仓库地址 (直接回车跳过): " data_repo
+    # 从 /dev/tty 读取以支持 curl | bash 模式
+    read -p "  仓库地址 (直接回车跳过): " data_repo < /dev/tty
 
     if [ -n "$data_repo" ]; then
         mkdir -p "$MEMORY_ROOT/data"
