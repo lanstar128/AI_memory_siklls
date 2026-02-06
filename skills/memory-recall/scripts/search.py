@@ -12,6 +12,9 @@
     
     # 按条件过滤
     python3 search.py --query "关键词" --type conversation --date-range "2026-01-01,2026-01-18"
+    
+    # 指定数据目录
+    python3 search.py --query "关键词" --data-dir ~/.ai-memory/data
 """
 
 import argparse
@@ -22,10 +25,14 @@ import sys
 from pathlib import Path
 
 
-# 路径配置
-DB_PATH = Path.home() / '.gemini' / 'memory' / 'conversations.db'
-SKILLS_DIR = Path.home() / '.gemini' / 'antigravity' / 'skills'
-MODEL_DIR = Path.home() / '.gemini' / 'models' / 'all-MiniLM-L6-v2'
+# 路径配置 - 使用新的统一目录结构
+MEMORY_ROOT = Path.home() / '.ai-memory'
+DATA_DIR = MEMORY_ROOT / 'data'
+SKILLS_DIR = MEMORY_ROOT / 'skills' / 'skills'
+MODEL_DIR = MEMORY_ROOT / 'models' / 'all-MiniLM-L6-v2'
+DB_PATH = DATA_DIR / 'conversations.db'
+CONVERSATIONS_DIR = DATA_DIR / 'conversations'
+KNOWLEDGE_DIR = DATA_DIR / 'knowledge'
 
 # 全局变量
 _model = None
@@ -208,16 +215,52 @@ def search_skills_keyword(keyword: str):
     return results
 
 
+def search_knowledge_keyword(keyword: str):
+    """关键词搜索知识沉淀"""
+    results = []
+    keyword_lower = keyword.lower()
+    
+    if not KNOWLEDGE_DIR.exists():
+        return results
+    
+    for md_file in KNOWLEDGE_DIR.glob('*.md'):
+        content = md_file.read_text(encoding='utf-8')
+        
+        # 提取标题和内容
+        title = md_file.stem
+        if keyword_lower in title.lower() or keyword_lower in content.lower():
+            # 提取描述（前 100 字符）
+            desc = content[:100].replace('\n', ' ')
+            
+            results.append({
+                'id': f'knowledge:{title}',
+                'title': title,
+                'time': '',
+                'turns': 0,
+                'file_path': str(md_file),
+                'first_message': desc,
+                'project_path': '',
+                'type': 'knowledge',
+                'score': 1.0
+            })
+    
+    return results
+
+
 def search_semantic(query: str, type_filter: str = None, date_range: str = None, limit: int = 10):
     """语义搜索（需要 embeddings 支持）"""
-    # 目前回退到关键词搜索
-    # TODO: 实现真正的语义搜索
     results = []
     
-    if type_filter != 'skill':
+    # 搜索对话归档
+    if type_filter is None or type_filter == 'conversation':
         results.extend(search_conversations_keyword(query, date_range, limit))
     
-    if type_filter != 'conversation':
+    # 搜索知识沉淀
+    if type_filter is None or type_filter == 'knowledge':
+        results.extend(search_knowledge_keyword(query))
+    
+    # 搜索技能
+    if type_filter is None or type_filter == 'skill':
         results.extend(search_skills_keyword(query))
     
     # 按相关度排序
@@ -281,7 +324,7 @@ def main():
     parser.add_argument('--query', '-q', help='搜索关键词或问题')
     parser.add_argument('--show', '-s', type=int, help='显示指定 ID 的原文')
     parser.add_argument('--top', '-n', type=int, default=5, help='返回结果数量')
-    parser.add_argument('--type', '-t', choices=['conversation', 'skill'], help='过滤类型')
+    parser.add_argument('--type', '-t', choices=['conversation', 'knowledge', 'skill'], help='过滤类型')
     parser.add_argument('--date-range', help='日期范围，格式: 开始,结束')
     parser.add_argument('--list', '-l', action='store_true', help='列出最近记录')
     args = parser.parse_args()
