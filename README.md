@@ -91,14 +91,15 @@ Your second brain lives in `~/.ai-memory`:
 
 ## 🤝 Contributing
 
-We believe in the power of community! If you've built a cool skill (e.g., "Web Scraper", "Todo Manager"), please share it!
+We welcome contributions that extend the core capabilities of the Memory System! This is **not** just another script collection; it's a foundational layer for AI cognition.
 
-1. Fork this repository
-2. Create your skill in `skills/your-skill-name`
-3. Write a `SKILL.md`
-4. Submit a Pull Request
+Key areas where we need your help:
+- **Memory Adaptors**: Support for Vector DBs (Pinecone, Milvus) or Graph DBs (Neo4j).
+- **Retrieval Strategies**: Implement Advanced RAG, Hybrid Search, or Re-ranking algorithms.
+- **Tool Integrations**: Plugins for VS Code, JetBrains, or browser extensions.
+- **Privacy Core**: Enhancements to local encryption and zero-knowledge sync protocols.
 
----
+Fork -> Branch -> PR. Let's build the future of AI memory together.
 
 ## 🔮 Roadmap
 

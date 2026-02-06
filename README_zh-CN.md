@@ -92,16 +92,15 @@ curl -sSL https://raw.githubusercontent.com/lanstar128/AI_memory_siklls/main/ins
 
 ## 🤝 参与贡献
 
-我们非常欢迎社区贡献！如果你有通用的 AI 技能（如"抓取网页"、"生成图表"、"管理待办"等），请贡献到 `skills/` 目录。
+我们欢迎社区贡献者帮助扩展记忆系统的核心能力！这不仅仅是一堆脚本的集合，而是 AI 认知的基础层。
 
-1. Fork 本仓库
-2. 创建你的技能目录 `skills/your-skill-name`
-3. 编写 `SKILL.md` 和代码
-4. 提交 Pull Request
+我们急需以下方向的贡献：
+- **记忆适配器 (Memory Adaptors)**：支持 Vector DB (Pinecone, Milvus) 或 Graph DB (Neo4j)。
+- **检索策略 (Retrieval Strategies)**：实现 Advanced RAG、混合检索或重排序 (Re-ranking) 算法。
+- **工具集成 (Tool Integrations)**：开发 VS Code、JetBrains 插件或浏览器扩展。
+- **隐私核心 (Privacy Core)**：增强本地加密和零知识同步协议。
 
-让我们的 AI 变得更强大！
-
----
+Fork -> Branch -> PR。让我们一起构建 AI 记忆的未来。
 
 ## 🔮 未来规划 (Roadmap)
 
