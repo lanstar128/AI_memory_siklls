@@ -68,25 +68,25 @@ create_symlink() {
     esac
 }
 
-# 3. 链接 Public Skills
-if [ -d "$SKILLS_PUBLIC" ]; then
-    echo "  加载公开技能..."
-    for skill_dir in "$SKILLS_PUBLIC"/*; do
+# 3. 链接 Private Skills (Legacy/Custom)
+if [ -d "$SKILLS_PRIVATE" ]; then
+    echo "  加载私有技能..."
+    for skill_dir in "$SKILLS_PRIVATE"/*; do
         if [ -d "$skill_dir" ]; then
             create_symlink "$skill_dir"
         fi
     done
 fi
 
-# 4. 链接 Private Skills (覆盖同名)
-if [ -d "$SKILLS_PRIVATE" ]; then
-    echo "  加载私有技能..."
-    for skill_dir in "$SKILLS_PRIVATE"/*; do
+# 4. 链接 Public Skills (Official - 强制覆盖)
+if [ -d "$SKILLS_PUBLIC" ]; then
+    echo "  加载公开技能 (官方)..."
+    for skill_dir in "$SKILLS_PUBLIC"/*; do
         if [ -d "$skill_dir" ]; then
             name=$(basename "$skill_dir")
-            # 如果已存在（即 Public 中有同名），先删除，实现覆盖
+            # 如果已存在（即 Private 中有旧副本），覆盖它
             if [ -e "$AGGREGATE_DIR/$name" ]; then
-                echo -e "  ${YELLOW}^${NC} 覆盖公开技能: $name"
+                echo -e "  ${BLUE}^${NC} 更新官方技能: $name (覆盖旧副本)"
             fi
             create_symlink "$skill_dir"
         fi
